@@ -1,19 +1,16 @@
 <template>
   <div class="App">
-    <Header :isOpenedSettings="!isOpenedSettings" :setIsOpenedSettings="setIsOpenedSettings"/>
-    <Weather v-if="!isOpenedSettings" :cities="cities"/>
-    <Settings v-if="isOpenedSettings" :cities="cities" :addNewCity="addNewCity"/>
+    <ion-header .isOpenedSettings="!isOpenedSettings" .setIsOpenedSettings="setIsOpenedSettings"/>
+    <ion-weather v-if="!isOpenedSettings" .cities="cities"/>
+    <ion-settings v-if="isOpenedSettings" .cities="cities" .addNewCity="addNewCity"/>
   </div>
 </template>
 
 <script lang="ts">
 import axios, { AxiosResponse } from 'axios';
 import { Options, Vue } from 'vue-class-component';
-import Header from './components/Header.vue';
-import Settings from './views/Settings.vue';
-import Weather from './views/Weather.vue';
 
-export interface ICity {
+interface ICity {
   id: number;
   name: string;
   visibility: number;
@@ -133,9 +130,6 @@ interface ICityData {
     },
   },
   components: {
-    Weather,
-    Settings,
-    Header,
   },
   created(): void {
     if (localStorage.getItem('cities')) {
@@ -151,14 +145,7 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-//noinspection CssUnknownTarget
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+@import "@/assets/styles/main.scss";
 
 .App {
   max-width: 260px;

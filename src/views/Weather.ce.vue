@@ -2,7 +2,7 @@
   <div class="Weather">
     <ul class="Weather__cities">
       <li class="Weather__city" v-for="city in cities" :key="city.id">
-        <City :city="city"/>
+        <ion-city .city="city"/>
       </li>
     </ul>
   </div>
@@ -10,12 +10,8 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import City from '@/components/City.vue';
 
 @Options({
-  components: {
-    City,
-  },
   props: {
     cities: Array,
   },
@@ -25,6 +21,8 @@ export default class Weather extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/styles/main.scss";
+
 .Weather {
   margin-top: -40px;
 
