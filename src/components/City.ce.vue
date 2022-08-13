@@ -153,7 +153,7 @@ export default class City extends Vue {
 
   .City__name {
     font-style: normal;
-    font-weight: 500;
+    font-weight: 700;
     font-size: 14px;
   }
 

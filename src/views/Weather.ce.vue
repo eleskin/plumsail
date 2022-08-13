@@ -21,7 +21,7 @@ export default class Weather extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/main.scss";
+@import '@/assets/styles/main.scss';
 
 .Weather {
   margin-top: -40px;

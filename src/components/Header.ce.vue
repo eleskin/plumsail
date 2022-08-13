@@ -49,7 +49,7 @@ export default class Header extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/main.scss";
+@import '@/assets/styles/main.scss';
 
 .Header {
   width: 100%;
@@ -64,7 +64,7 @@ export default class Header extends Vue {
     font-size: 14px;
     margin: 0;
     padding: 0;
-    font-weight: 500;
+    font-weight: 700;
 
     &_hidden {
       visibility: hidden;

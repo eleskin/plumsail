@@ -5,8 +5,9 @@
       <draggable
         :list="cities"
         @start="dragging = true"
-        @end="dragging = false"
+        @end="onDragEnd"
         ghost-class="Settings__cities_ghost"
+        :move="checkMove"
       >
         <template #item="{ element }">
           <li class="Settings__city">
@@ -94,6 +95,10 @@ interface ICity {
       localStorage.setItem('cities', cities.join(',') || '');
       this.cities.splice(cityIndex, 1);
     },
+    onDragEnd() {
+      this.dragging = false;
+      localStorage.setItem('cities', this.cities.map((city: ICity) => city.name.toLowerCase()).join(','));
+    },
   },
 })
 export default class Settings extends Vue {
@@ -101,7 +106,7 @@ export default class Settings extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/main.scss";
+@import '@/assets/styles/main.scss';
 
 .Settings {
   .Settings__empty {
@@ -125,7 +130,7 @@ export default class Settings extends Vue {
 
       span {
         font-size: 14px;
-        font-weight: 500;
+        font-weight: 700;
       }
 
       button {
