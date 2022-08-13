@@ -1,24 +1,5 @@
-# plumsail
-
-## Project setup
+### Использование:
 ```
-npm install
+<weather-widget></weather-widget>
+<script src="https://weather.aleksandreleskin.ru/js/app.21314853.js"></script>
 ```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
