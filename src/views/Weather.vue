@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import City from '@/components/City.vue';
 
@@ -16,9 +16,8 @@ import City from '@/components/City.vue';
   components: {
     City,
   },
-  props: ['cities'],
-  updated() {
-    // console.log(this.cities);
+  props: {
+    cities: Array,
   },
 })
 export default class Weather extends Vue {

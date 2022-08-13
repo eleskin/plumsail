@@ -1,21 +1,27 @@
 <template>
   <div class="Settings">
-    <ul class="Settings__cities">
+    <span class="Settings__empty" v-if="!cities.length">Add the first location</span>
+    <ul class="Settings__cities" v-if="cities.length">
       <li class="Settings__city" v-for="(city, index) in cities" :key="city.id">
         <i><img src="@/assets/images/hamburger.svg" alt="" width="24" height="24"></i>
         <span>{{ city.name }}, {{ city.sys.country }}</span>
-        <button @click="cities.splice(index, 1)">
+        <button @click="onRemoveCity(index)">
           <img src="@/assets/images/trash.svg" alt="" width="20" height="20">
         </button>
       </li>
     </ul>
     <form
       class="Settings__form"
-      @submit.prevent="onSavedCity"
+      @submit.prevent="onSaveCity"
     >
       <label for="newCityInput">
         <span>Add location</span>
-        <input type="text" id="newCityInput" v-model="newCityName">
+        <input
+          type="text"
+          id="newCityInput"
+          v-model="newCityName"
+          placeholder="Enter a city name or identifier"
+        >
         <button>
           <img src="@/assets/images/arrow.svg" width="24" height="24" alt="">
         </button>
@@ -24,18 +30,28 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 
 @Options({
-  props: ['cities'],
+  props: {
+    cities: Array,
+    addNewCity: Function,
+  },
   data: () => ({
     newCityName: '',
   }),
   methods: {
-    onSavedCity() {
-      this.cities.push({ id: this.cities.length, name: this.newCityName });
+    onSaveCity(): void {
+      this.addNewCity(this.newCityName.toLowerCase());
       this.newCityName = '';
+    },
+    onRemoveCity(index: number): void {
+      const cities: string[] = localStorage.getItem('cities')?.split(',') || [];
+      const cityIndex: number = cities.indexOf(this.cities[index].name.toLowerCase()) as number;
+      cities.splice(cityIndex, 1);
+      localStorage.setItem('cities', cities.join(',') || '');
+      this.cities.splice(index, 1);
     },
   },
 })
@@ -45,6 +61,14 @@ export default class Settings extends Vue {
 
 <style lang="scss" scoped>
 .Settings {
+  .Settings__empty {
+    font-size: 14px;
+    text-align: center;
+    display: block;
+    margin-top: 16px;
+    color: rgba(0, 0, 0, 0.5);
+  }
+
   .Settings__form {
     margin-top: 28px;
 

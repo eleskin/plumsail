@@ -12,7 +12,10 @@
 import { Options, Vue } from 'vue-class-component';
 
 @Options({
-  props: ['isOpenedSettings', 'setIsOpenedSettings'],
+  props: {
+    isOpenedSettings: Boolean,
+    setIsOpenedSettings: Function,
+  },
 })
 export default class Header extends Vue {
 }

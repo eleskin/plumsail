@@ -33,23 +33,25 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 
 @Options({
-  props: ['city'],
+  props: {
+    city: Object,
+  },
   computed: {
-    weatherInfo() {
+    weatherInfo(): string {
       return `
-        Feels like ${this.city.main.feels_like}°C.
+        Feels like ${this.city.main.feelsLike}°C.
         ${this.city.weather.main}.
         ${this.city.weather.description[0].toUpperCase()}${this.city.weather.description.substring(1)}
       `;
     },
-    dewPoint() {
+    dewPoint(): number {
       return this.city.main.temp - (100 - this.city.main.humidity) / 5;
     },
-    windDirection() {
+    windDirection(): string {
       const { deg } = this.city.wind;
 
       if (deg > 348.75 && deg <= 11.25) {
