@@ -13,7 +13,7 @@ import Header from './components/Header.vue';
 import Settings from './views/Settings.vue';
 import Weather from './views/Weather.vue';
 
-interface ICity {
+export interface ICity {
   id: number;
   name: string;
   visibility: number;

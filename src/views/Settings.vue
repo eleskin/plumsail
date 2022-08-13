@@ -2,13 +2,22 @@
   <div class="Settings">
     <span class="Settings__empty" v-if="!cities.length">Add the first location</span>
     <ul class="Settings__cities" v-if="cities.length">
-      <li class="Settings__city" v-for="(city, index) in cities" :key="city.id">
-        <i><img src="@/assets/images/hamburger.svg" alt="" width="24" height="24"></i>
-        <span>{{ city.name }}, {{ city.sys.country }}</span>
-        <button @click="onRemoveCity(index)">
-          <img src="@/assets/images/trash.svg" alt="" width="20" height="20">
-        </button>
-      </li>
+      <draggable
+        :list="cities"
+        @start="dragging = true"
+        @end="dragging = false"
+        ghost-class="Settings__cities_ghost"
+      >
+        <template #item="{ element }">
+          <li class="Settings__city">
+            <i><img src="@/assets/images/hamburger.svg" alt="" width="24" height="24"></i>
+            <span>{{ element.name }}, {{ element.sys.country }}</span>
+            <button @click="onRemoveCity(element.id)">
+              <img src="@/assets/images/trash.svg" alt="" width="20" height="20">
+            </button>
+          </li>
+        </template>
+      </draggable>
     </ul>
     <form
       class="Settings__form"
@@ -31,27 +40,39 @@
 </template>
 
 <script lang="ts">
+import { ICity } from '@/App.vue';
 import { Options, Vue } from 'vue-class-component';
+import draggable from 'vuedraggable';
 
 @Options({
   props: {
     cities: Array,
     addNewCity: Function,
   },
+  components: {
+    draggable,
+  },
   data: () => ({
     newCityName: '',
+    dragging: false,
   }),
   methods: {
     onSaveCity(): void {
       this.addNewCity(this.newCityName.toLowerCase());
       this.newCityName = '';
     },
-    onRemoveCity(index: number): void {
+    onRemoveCity(id: number): void {
       const cities: string[] = localStorage.getItem('cities')?.split(',') || [];
-      const cityIndex: number = cities.indexOf(this.cities[index].name.toLowerCase()) as number;
-      cities.splice(cityIndex, 1);
+      let cityIndex = -1;
+      this.cities.forEach((city: ICity, index: number) => {
+        if (city.id === id) {
+          cityIndex = index;
+        }
+      });
+
+      cities.splice(cities.indexOf(this.cities[cityIndex].name.toLowerCase()), 1);
       localStorage.setItem('cities', cities.join(',') || '');
-      this.cities.splice(index, 1);
+      this.cities.splice(cityIndex, 1);
     },
   },
 })
@@ -123,6 +144,11 @@ export default class Settings extends Vue {
         cursor: pointer;
       }
     }
+  }
+
+  .Settings__cities_ghost {
+    opacity: 0.5;
+    background-color: #c8ebfb;
   }
 }
 </style>
